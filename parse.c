@@ -6,7 +6,7 @@
 /*   By: varnaud <varnaud@student.42.us.org>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/27 21:42:43 by varnaud           #+#    #+#             */
-/*   Updated: 2017/06/01 23:27:10 by varnaud          ###   ########.fr       */
+/*   Updated: 2017/06/02 05:20:47 by varnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,8 @@ static int	parse_rooms(t_lemin *lemin, int *i, char **file)
 		f = 0;
 		while (file[*i][0] == '#')
 			f |= parse_command(file[(*i)++]);
+		if (ft_strchr(file[*i], '-'))
+			return (1);
 		if (file[*i][0] == 'L')
 			return (1);
 		if (add_room(lemin, f, n, file[*i]))
@@ -146,7 +148,6 @@ static int	parse_links(t_lemin *lemin, int *i, char **file)
 	{
 		if (!(split = ft_split(file[*i], ft_strlen(file[*i]), &n)))
 			return (1);
-		
 		++*i;
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: varnaud <varnaud@student.42.us.org>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/27 21:17:35 by varnaud           #+#    #+#             */
-/*   Updated: 2017/06/01 19:17:58 by varnaud          ###   ########.fr       */
+/*   Updated: 2017/06/02 06:11:50 by varnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,16 @@
 # define VTX_START 1
 # define VTX_END 2
 # define VTX_ANT 4
+
+typedef struct		s_room
+{
+	int				num;
+	int				x;
+	int				y;
+	int				f;
+	char			*name;
+	struct s_room	*next;
+}					t_room;
 
 typedef struct	s_ant
 {
@@ -37,14 +47,22 @@ typedef struct	s_vertex
 typedef struct	s_lemin
 {
 	int			num_ants;
-	t_ant		*ants;
-	int			**adj_mtx;
-	t_vertex	*vertices;
 	int			num_rooms;
+	int			**adj_mtx;
+	char		**file;
+	int			p;
+	t_room		*rooms;
+	t_room		**pr;
+	t_ant		*ants;
+	t_vertex	*vertices;
+	int			has_start;
+	int			has_end;
 }				t_lemin;
 
 
 char			**validate_file(void);
 void			*free_lemin(t_lemin *lemin);
+int				parse(t_lemin *lemin);
+t_room			*find_room(t_room *lst, char *name, int num);
 
 #endif

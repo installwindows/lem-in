@@ -6,13 +6,14 @@
 #    By: varnaud <varnaud@student.42.us.org>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/30 22:20:02 by varnaud           #+#    #+#              #
-#    Updated: 2017/05/30 22:26:50 by varnaud          ###   ########.fr        #
+#    Updated: 2017/06/02 06:31:46 by varnaud          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = lem-in
 SRC = main.c \
-	  validate.c
+	  validate.c \
+	  p.c
 
 OBJ = $(SRC:.c=.o)
 CC = gcc
@@ -30,7 +31,7 @@ clean:
 	make -C libft clean
 	rm -rf $(OBJ)
 
-flcean: clean
+fclean: clean
 	make -C libft fclean
 	rm -rf $(NAME)
 

@@ -6,7 +6,7 @@
 /*   By: varnaud <varnaud@student.42.us.org>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/30 19:18:21 by varnaud           #+#    #+#             */
-/*   Updated: 2017/05/30 22:37:05 by varnaud          ###   ########.fr       */
+/*   Updated: 2017/06/02 04:54:45 by varnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static char	**list_to_array(t_list *lst, int size)
 	i = 0;
 	while (i < size)
 	{
-		file[i] = ft_strdup(cur->content);
+		file[i] = ft_strtrim(cur->content);
 		cur = cur->next;
 		i++;
 	}
@@ -61,14 +61,11 @@ char		**validate_file(void)
 	i = 0;
 	while ((r = gnl(0, &line)) && r != -1)
 	{
-		if (!(line[0] == '#' && line[1] != '#'))
-		{
-			(*cur) = malloc(sizeof(t_list));
-			(*cur)->content = ft_strdup(line);
-			(*cur)->next = NULL;
-			cur = &(*cur)->next;
-			i++;
-		}
+		(*cur) = malloc(sizeof(t_list));
+		(*cur)->content = ft_strdup(line);
+		(*cur)->next = NULL;
+		cur = &(*cur)->next;
+		i++;
 		free(line);
 	}
 	return (list_to_array(lst, i));
