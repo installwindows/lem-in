@@ -6,7 +6,7 @@
 /*   By: varnaud <varnaud@student.42.us.org>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/27 21:17:35 by varnaud           #+#    #+#             */
-/*   Updated: 2017/05/31 00:37:54 by varnaud          ###   ########.fr       */
+/*   Updated: 2017/06/01 19:17:58 by varnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ typedef struct	s_vertex
 	int			x;
 	int			y;
 	int			n;
+	char		*name;
 	int			weight;
 	int			attr;
 }				t_vertex;
