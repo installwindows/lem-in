@@ -6,30 +6,11 @@
 /*   By: varnaud <varnaud@student.42.us.org>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/27 21:15:38 by varnaud           #+#    #+#             */
-/*   Updated: 2017/06/02 06:21:17 by varnaud          ###   ########.fr       */
+/*   Updated: 2017/06/02 14:17:27 by varnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
-
-void		*free_lemin(t_lemin *lemin)
-{
-	int		i;
-
-	if (lemin == NULL)
-		return (NULL);
-	i = 0;
-	if (lemin->adj_mtx)
-		while (lemin->adj_mtx[i])
-			free(lemin->adj_mtx[i++]);
-	free(lemin->adj_mtx);
-	i = 0;
-	while (i < lemin->num_rooms)
-		free(lemin->vertices[i].name);
-	free(lemin->vertices);
-	free(lemin->ants);
-	return (NULL);
-}
 
 static void	cleanup(char **file)
 {
@@ -40,6 +21,36 @@ static void	cleanup(char **file)
 		while (file[i])
 			free(file[i++]);
 	free(file);
+}
+
+void		*free_lemin(t_lemin *lemin)
+{
+	int		i;
+	t_room	*c;
+
+	if (lemin == NULL)
+		return (NULL);
+	i = 0;
+	if (lemin->adj_mtx)
+		while (lemin->adj_mtx[i])
+			free(lemin->adj_mtx[i++]);
+	free(lemin->adj_mtx);
+	i = 0;
+	if (lemin->vertices)
+		while (i < lemin->num_rooms)
+			free(lemin->vertices[i++].name);
+	free(lemin->vertices);
+	free(lemin->ants);
+	c = lemin->rooms;
+	while (c)
+	{
+		lemin->rooms = c->next;
+		free(c->name);
+		free(c);
+		c = lemin->rooms;
+	}
+	cleanup(lemin->file);
+	return (NULL);
 }
 
 static void	display_file(char **file)
@@ -93,17 +104,22 @@ void	display_lemin(t_lemin *l)
 int		main(void)
 {
 	t_lemin	lemin;
+	int		err;
 
+	err = 0;
 	ft_memset(&lemin, 0, sizeof(t_lemin));
 	if (!(lemin.file = validate_file()))
 	{
 		ft_fprintf(2, "File's not fine.\n");
-		return (1);
+		err = 1;
 	}
-	if (parse(&lemin))
+	if (!err && parse(&lemin))
 	{
 		ft_fprintf(2, "Data's not right.\n");
-		return (1);
+		err = 1;
 	}
-	display_lemin(&lemin);
+	if (!err)
+		display_lemin(&lemin);
+	free_lemin(&lemin);
+	return (err);
 }

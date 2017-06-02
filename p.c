@@ -6,7 +6,7 @@
 /*   By: varnaud <varnaud@student.42.us.org>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/02 04:43:32 by varnaud           #+#    #+#             */
-/*   Updated: 2017/06/02 06:30:19 by varnaud          ###   ########.fr       */
+/*   Updated: 2017/06/02 14:09:33 by varnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,12 @@ int		parse_hash(t_lemin *l)
 			break ;
 		if (!ft_strcmp(l->file[l->p], "##start"))
 		{
-			l->has_start = 1;
+			l->has_start++;
 			f |= VTX_START;
 		}
 		else if (!ft_strcmp(l->file[l->p], "##end"))
 		{
-			l->has_end = 1;
+			l->has_end++;
 			f |= VTX_END;
 		}
 		l->p++;
@@ -52,6 +52,8 @@ int		parse_ants(t_lemin *l)
 {
 	if (parse_hash(l))
 		return (1);
+	if (l->file[l->p] == NULL)
+		return (1);
 	if (ft_natoi(l->file[l->p++], &l->num_ants))
 		return (1);
 	return (l->num_ants <= 0);
@@ -62,11 +64,7 @@ int		add_room(t_lemin *l, char **s, int f)
 	int		x;
 	int		y;
 
-	if (f & VTX_START && f & VTX_END)
-		return (1);
-	else if (f & VTX_START && l->has_start)
-		return (1);
-	else if (f & VTX_END && l->has_end)
+	if ((f & VTX_START) && (f & VTX_END))
 		return (1);
 	if (ft_natoi(s[1], &x) || ft_natoi(s[2], &y))
 		return (1);
@@ -94,6 +92,8 @@ int		parse_rooms(t_lemin *l)
 		if (ft_strchr(l->file[l->p], '-'))
 			break ;
 		f = parse_hash(l);
+		if (l->file[l->p] == NULL)
+			break ;
 		if (!(s = ft_split(l->file[l->p], ft_strlen(l->file[l->p]), &i)) || i != 3)
 			return (cleanup(s));
 		if (add_room(l, s, f))
@@ -101,7 +101,7 @@ int		parse_rooms(t_lemin *l)
 		cleanup(s);
 		l->p++;
 	}
-	return (!(l->has_start && l->has_end));
+	return (!(l->has_start && l->has_end) || !l->num_rooms);
 }
 
 t_room	*find_room(t_room *lst, char *name, int num)
@@ -146,6 +146,8 @@ int		parse_links(t_lemin *l)
 	{
 		if (parse_hash(l))
 			return (1);
+		if (l->file[l->p] == NULL)
+			break ;
 		if ((s = ft_strchr(l->file[l->p], '-')) && !ft_strchr(s + 1, '-'))
 		{
 			if (add_link(l))
@@ -186,6 +188,8 @@ int		parse(t_lemin *lemin)
 		return (1);
 	setup_lemin(lemin);
 	if (parse_links(lemin))
+		return (1);
+	if (lemin->has_start != 1 || lemin->has_end != 1)
 		return (1);
 	return (0);
 }
