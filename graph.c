@@ -6,7 +6,7 @@
 /*   By: varnaud <varnaud@student.42.us.org>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/02 21:05:14 by varnaud           #+#    #+#             */
-/*   Updated: 2017/06/03 19:59:59 by varnaud          ###   ########.fr       */
+/*   Updated: 2017/06/03 23:19:59 by varnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,13 @@ typedef struct		s_graph
 	int				v;
 	t_adj_list		*array;
 }					t_graph;
+
+typedef struct		s_queue
+{
+	int				data;
+	struct s_queue	*next;
+	struct s_queue	*prev;
+}					t_queue;
 
 t_adj_node	*new_adj_node(int dest)
 {
