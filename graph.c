@@ -6,7 +6,7 @@
 /*   By: varnaud <varnaud@student.42.us.org>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/02 21:05:14 by varnaud           #+#    #+#             */
-/*   Updated: 2017/06/05 04:16:48 by varnaud          ###   ########.fr       */
+/*   Updated: 2017/06/05 04:46:20 by varnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,10 @@ t_graph				*create_graph(int v)
 
 	graph = malloc(sizeof(t_graph));
 	graph->v = v;
-	graph->index = 0;
 	graph->array = malloc(sizeof(t_adj_list) * v);
 	graph->matrix = malloc(sizeof(int*) * v);
+	graph->shortest = NULL;
+	graph->size = 2147483647;
 	i = 0;
 	while (i < v)
 	{
@@ -64,6 +65,7 @@ void				delete_graph(t_graph *graph)
 		free(graph->matrix[i]);
 		i++;
 	}
+	free(graph->shortest);
 	free(graph->matrix);
 	free(graph->array);
 	free(graph);
@@ -114,13 +116,21 @@ void				print_graph(t_graph *graph)
 	}
 }
 
-void				print_stack_elements(int *path, int index)
+void				print_stack_elements(t_graph *graph, t_dfs *dfs)
 {
 	int		i;
 
 	i = 0;
-	while (i < index)
-		ft_printf ("%d ", path[i++]);
+
+	if (dfs->index < graph->size)
+	{
+		graph->size = dfs->index;
+		free(graph->shortest);
+		graph->shortest = malloc(sizeof(int) * dfs->index);
+		ft_memcpy(graph->shortest, dfs->path, sizeof(int) * dfs->index);
+	}
+	while (i < dfs->index)
+		ft_printf ("%d ", dfs->path[i++]);
 	ft_printf("\n");
 }
 
@@ -129,10 +139,10 @@ void				print_path(t_graph *graph, t_dfs *dfs, int src, int dest)
 	int		i;
 
 	dfs->visited[src] = 1;
-	dfs->path[graph->index] = src;
-	graph->index++;
+	dfs->path[dfs->index] = src;
+	dfs->index++;
 	if (src == dest)
-		print_stack_elements(dfs->path, graph->index);
+		print_stack_elements(graph, dfs);
 	else
 	{
 		i = 0;
@@ -144,12 +154,13 @@ void				print_path(t_graph *graph, t_dfs *dfs, int src, int dest)
 		}
 	}
 	dfs->visited[src] = 0;
-	graph->index--;
+	dfs->index--;
 }
 
 void				dfs(t_graph *graph, int src, int dest)
 {
 	int		visited[graph->v];
+	int		i;
 	int		path[graph->v];
 	t_dfs	dfs;
 
@@ -159,7 +170,17 @@ void				dfs(t_graph *graph, int src, int dest)
 	dfs.path = path;
 	dfs.v = graph->v;
 	dfs.index = 0;
+	graph->size = 2147483647;
+	free(graph->shortest);
+	graph->shortest = NULL;
 	print_path(graph, &dfs, src, dest);
+	i = 0;
+	ft_printf("Shortest path: ");
+	while (i < graph->size)
+	{
+		ft_printf(i < graph->size - 1 ? "%d -> " : "%d\n", graph->shortest[i]);
+		i++;
+	}
 }
 
 int					main(void)

@@ -6,7 +6,7 @@
 /*   By: varnaud <varnaud@student.42.us.org>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/04 21:32:36 by varnaud           #+#    #+#             */
-/*   Updated: 2017/06/05 04:10:13 by varnaud          ###   ########.fr       */
+/*   Updated: 2017/06/05 04:37:15 by varnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ typedef struct		s_adj_list
 typedef struct		s_graph
 {
 	int				v;
-	int				index;
+	int				*shortest;
+	int				size;
 	t_adj_list		*array;
 	int				**matrix;
 }					t_graph;
