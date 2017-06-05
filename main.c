@@ -6,7 +6,7 @@
 /*   By: varnaud <varnaud@student.42.us.org>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/27 21:15:38 by varnaud           #+#    #+#             */
-/*   Updated: 2017/06/05 05:27:58 by varnaud          ###   ########.fr       */
+/*   Updated: 2017/06/05 07:27:39 by varnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,15 +86,10 @@ void	display_lemin(t_lemin *l)
 	j = 0;
 	while (l->adj_mtx[i])
 	{
-		j = i + 1;
+		j = 0;
 		while (j < l->num_rooms)
 		{
-			if (l->adj_mtx[i][j])
-			{
-				a = find_room(l->rooms, NULL, i);
-				b = find_room(l->rooms, NULL, j);
-				ft_printf("%s-%s\n", a->name, b->name);
-			}
+			ft_printf(j < l->num_rooms - 1 ? "%d " : "%d\n", l->adj_mtx[i][j]);
 			j++;
 		}
 		i++;

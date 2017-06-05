@@ -6,7 +6,7 @@
 /*   By: varnaud <varnaud@student.42.us.org>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/02 04:43:32 by varnaud           #+#    #+#             */
-/*   Updated: 2017/06/05 05:37:31 by varnaud          ###   ########.fr       */
+/*   Updated: 2017/06/05 07:24:58 by varnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,10 @@ int		add_room(t_lemin *l, char **s, int f)
 		return (1);
 	*(l->pr) = malloc(sizeof(t_room));
 	(*(l->pr))->next = NULL;
+	if (f & VTX_START)
+		l->start = l->num_rooms;
+	else if (f & VTX_END)
+		l->end = l->num_rooms;
 	(*(l->pr))->num = l->num_rooms++;
 	(*(l->pr))->name = ft_strdup(s[0]);
 	(*(l->pr))->x = x;

@@ -6,7 +6,7 @@
 /*   By: varnaud <varnaud@student.42.us.org>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/02 21:05:14 by varnaud           #+#    #+#             */
-/*   Updated: 2017/06/05 05:24:12 by varnaud          ###   ########.fr       */
+/*   Updated: 2017/06/05 07:30:52 by varnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,12 +176,12 @@ void				dfs(t_graph *graph, int src, int dest)
 	print_path(graph, &dfs, src, dest);
 	i = 0;
 	ft_printf("Shortest path: ");
-	if (graph->shortest)
-		while (i < graph->size)
-		{
-			ft_printf(i < graph->size - 1 ? "%d -> " : "%d\n", graph->shortest[i]);
-			i++;
-		}
+	//if (graph->shortest)
+	//	while (i < graph->size)
+	//	{
+	//		ft_printf(i < graph->size - 1 ? "%d -> " : "%d\n", graph->shortest[i]);
+	//		i++;
+	//	}
 }
 
 /*
