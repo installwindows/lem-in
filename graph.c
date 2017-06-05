@@ -6,37 +6,13 @@
 /*   By: varnaud <varnaud@student.42.us.org>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/02 21:05:14 by varnaud           #+#    #+#             */
-/*   Updated: 2017/06/03 23:19:59 by varnaud          ###   ########.fr       */
+/*   Updated: 2017/06/05 04:16:48 by varnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "graph.h"
 
-typedef struct		s_adj_node
-{
-	int					dest;
-	struct s_adj_node	*next;
-}					t_adj_node;
-
-typedef struct		s_adj_list
-{
-	t_adj_node		*head;
-}					t_adj_list;
-
-typedef struct		s_graph
-{
-	int				v;
-	t_adj_list		*array;
-}					t_graph;
-
-typedef struct		s_queue
-{
-	int				data;
-	struct s_queue	*next;
-	struct s_queue	*prev;
-}					t_queue;
-
-t_adj_node	*new_adj_node(int dest)
+static t_adj_node	*new_adj_node(int dest)
 {
 	t_adj_node *node;
 
@@ -48,24 +24,57 @@ t_adj_node	*new_adj_node(int dest)
 	return (node);
 }
 
-t_graph		*create_graph(int v)
+t_graph				*create_graph(int v)
 {
 	int		i;
 	t_graph	*graph;
 
 	graph = malloc(sizeof(t_graph));
 	graph->v = v;
+	graph->index = 0;
 	graph->array = malloc(sizeof(t_adj_list) * v);
+	graph->matrix = malloc(sizeof(int*) * v);
 	i = 0;
 	while (i < v)
-		graph->array[i++].head = NULL;
+	{
+		graph->array[i].head = NULL;
+		graph->matrix[i] = malloc(sizeof(int) * v);
+		ft_memset(graph->matrix[i], 0, sizeof(int) * v);
+		i++;
+	}
 	return (graph);
 }
 
-void		add_edge(t_graph *graph, int src, int dest)
+void				delete_graph(t_graph *graph)
+{
+	int			i;
+	t_adj_node	*cur;
+
+	if (!graph)
+		return ;
+	i = 0;
+	while (i < graph->v)
+	{
+		while (graph->array[i].head)
+		{
+			cur = graph->array[i].head->next;;
+			free(graph->array[i].head);
+			graph->array[i].head = cur;
+		}
+		free(graph->matrix[i]);
+		i++;
+	}
+	free(graph->matrix);
+	free(graph->array);
+	free(graph);
+}
+
+void				add_edge(t_graph *graph, int src, int dest)
 {
 	t_adj_node	*node;
 
+	graph->matrix[src][dest] = 1;
+	graph->matrix[dest][src] = 1;
 	node = new_adj_node(dest);
 	node->next = graph->array[src].head;
 	graph->array[src].head = node;
@@ -74,27 +83,86 @@ void		add_edge(t_graph *graph, int src, int dest)
 	graph->array[dest].head = node;
 }
 
-void		print_graph(t_graph *graph)
+void				print_graph(t_graph *graph)
 {
-	int			v;
+	int			i;
+	int			j;
 	t_adj_node	*node;
 
-	v = 0;
-	while (v < graph->v)
+	i = 0;
+	while (i < graph->v)
 	{
-		node = graph->array[v].head;
-		ft_printf("Adjacency list of vertex %d\n head ", v);
+		node = graph->array[i].head;
+		ft_printf("Adjacency list of vertex %d\n head ", i);
 		while (node)
 		{
-			ft_printf("-> %d", node->dest);
+			ft_printf(node->next ? "-> %d " : "-> %d\n", node->dest);
 			node = node->next;
 		}
-		ft_printf("\n");
-		v++;
+		i++;
+	}
+	i = 0;
+	while (i < graph->v)
+	{
+		j = 0;
+		while (j < graph->v)
+		{
+			ft_printf(j < graph->v - 1 ? "%d " : "%d\n", graph->matrix[i][j]);
+			j++;
+		}
+		i++;
 	}
 }
 
-int		main(void)
+void				print_stack_elements(int *path, int index)
+{
+	int		i;
+
+	i = 0;
+	while (i < index)
+		ft_printf ("%d ", path[i++]);
+	ft_printf("\n");
+}
+
+void				print_path(t_graph *graph, t_dfs *dfs, int src, int dest)
+{
+	int		i;
+
+	dfs->visited[src] = 1;
+	dfs->path[graph->index] = src;
+	graph->index++;
+	if (src == dest)
+		print_stack_elements(dfs->path, graph->index);
+	else
+	{
+		i = 0;
+		while (i < graph->v)
+		{
+			if (dfs->visited[i] == 0 && graph->matrix[src][i])
+				print_path(graph, dfs, i, dest);
+			i++;
+		}
+	}
+	dfs->visited[src] = 0;
+	graph->index--;
+}
+
+void				dfs(t_graph *graph, int src, int dest)
+{
+	int		visited[graph->v];
+	int		path[graph->v];
+	t_dfs	dfs;
+
+	ft_memset(visited, 0, sizeof(int) * graph->v);
+	ft_memset(path, 0, sizeof(int) * graph->v);
+	dfs.visited = visited;
+	dfs.path = path;
+	dfs.v = graph->v;
+	dfs.index = 0;
+	print_path(graph, &dfs, src, dest);
+}
+
+int					main(void)
 {
 	int		v = 5;
 	t_graph	*graph;
@@ -108,4 +176,7 @@ int		main(void)
 	add_edge(graph, 2, 3);
 	add_edge(graph, 3, 4);
 	print_graph(graph);
+	ft_printf("Path from src to dest.\n");
+	dfs(graph, 0, 4);
+	delete_graph(graph);
 }
