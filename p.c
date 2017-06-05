@@ -6,7 +6,7 @@
 /*   By: varnaud <varnaud@student.42.us.org>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/02 04:43:32 by varnaud           #+#    #+#             */
-/*   Updated: 2017/06/02 14:09:33 by varnaud          ###   ########.fr       */
+/*   Updated: 2017/06/05 05:37:31 by varnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,9 +89,9 @@ int		parse_rooms(t_lemin *l)
 
 	while (l->file[l->p])
 	{
+		f = parse_hash(l);
 		if (ft_strchr(l->file[l->p], '-'))
 			break ;
-		f = parse_hash(l);
 		if (l->file[l->p] == NULL)
 			break ;
 		if (!(s = ft_split(l->file[l->p], ft_strlen(l->file[l->p]), &i)) || i != 3)

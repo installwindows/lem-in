@@ -6,7 +6,7 @@
 /*   By: varnaud <varnaud@student.42.us.org>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/02 21:05:14 by varnaud           #+#    #+#             */
-/*   Updated: 2017/06/05 04:46:20 by varnaud          ###   ########.fr       */
+/*   Updated: 2017/06/05 05:24:12 by varnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ void				print_graph(t_graph *graph)
 	}
 }
 
-void				print_stack_elements(t_graph *graph, t_dfs *dfs)
+static void			print_stack_elements(t_graph *graph, t_dfs *dfs)
 {
 	int		i;
 
@@ -129,12 +129,12 @@ void				print_stack_elements(t_graph *graph, t_dfs *dfs)
 		graph->shortest = malloc(sizeof(int) * dfs->index);
 		ft_memcpy(graph->shortest, dfs->path, sizeof(int) * dfs->index);
 	}
-	while (i < dfs->index)
-		ft_printf ("%d ", dfs->path[i++]);
-	ft_printf("\n");
+	//while (i < dfs->index)
+	//	ft_printf ("%d ", dfs->path[i++]);
+	//ft_printf("\n");
 }
 
-void				print_path(t_graph *graph, t_dfs *dfs, int src, int dest)
+static void			print_path(t_graph *graph, t_dfs *dfs, int src, int dest)
 {
 	int		i;
 
@@ -176,16 +176,18 @@ void				dfs(t_graph *graph, int src, int dest)
 	print_path(graph, &dfs, src, dest);
 	i = 0;
 	ft_printf("Shortest path: ");
-	while (i < graph->size)
-	{
-		ft_printf(i < graph->size - 1 ? "%d -> " : "%d\n", graph->shortest[i]);
-		i++;
-	}
+	if (graph->shortest)
+		while (i < graph->size)
+		{
+			ft_printf(i < graph->size - 1 ? "%d -> " : "%d\n", graph->shortest[i]);
+			i++;
+		}
 }
 
+/*
 int					main(void)
 {
-	int		v = 5;
+	int		v = 6;
 	t_graph	*graph;
 
 	graph = create_graph(v);
@@ -198,6 +200,7 @@ int					main(void)
 	add_edge(graph, 3, 4);
 	print_graph(graph);
 	ft_printf("Path from src to dest.\n");
-	dfs(graph, 0, 4);
+	dfs(graph, 0, 5);
 	delete_graph(graph);
 }
+*/

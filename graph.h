@@ -6,7 +6,7 @@
 /*   By: varnaud <varnaud@student.42.us.org>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/04 21:32:36 by varnaud           #+#    #+#             */
-/*   Updated: 2017/06/05 04:37:15 by varnaud          ###   ########.fr       */
+/*   Updated: 2017/06/05 05:24:19 by varnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,5 +45,6 @@ typedef struct		s_dfs
 void				print_graph(t_graph *graph);
 void				add_edge(t_graph *graph, int src, int dest);
 t_graph				*create_graph(int v);
+void				dfs(t_graph *graph, int src, int dest);
 
 #endif

@@ -6,14 +6,16 @@
 #    By: varnaud <varnaud@student.42.us.org>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/30 22:20:02 by varnaud           #+#    #+#              #
-#    Updated: 2017/06/02 06:31:46 by varnaud          ###   ########.fr        #
+#    Updated: 2017/06/05 05:25:00 by varnaud          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = lem-in
 SRC = main.c \
 	  validate.c \
-	  p.c
+	  p.c \
+	  graph.c \
+	  solve.c
 
 OBJ = $(SRC:.c=.o)
 CC = gcc

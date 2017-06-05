@@ -6,13 +6,14 @@
 /*   By: varnaud <varnaud@student.42.us.org>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/27 21:17:35 by varnaud           #+#    #+#             */
-/*   Updated: 2017/06/02 23:35:27 by varnaud          ###   ########.fr       */
+/*   Updated: 2017/06/05 05:25:18 by varnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEM_IN_H
 # define LEM_IN_H
 # include "libft.h"
+# include "graph.h"
 # define VTX_START 1
 # define VTX_END 2
 # define VTX_ANT 4
@@ -71,5 +72,6 @@ char				**validate_file(void);
 void				*free_lemin(t_lemin *lemin);
 int					parse(t_lemin *lemin);
 t_room				*find_room(t_room *lst, char *name, int num);
+int					scrub_path(t_lemin *l);
 
 #endif
