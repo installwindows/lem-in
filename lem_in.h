@@ -6,7 +6,7 @@
 /*   By: varnaud <varnaud@student.42.us.org>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/27 21:17:35 by varnaud           #+#    #+#             */
-/*   Updated: 2017/06/05 05:25:18 by varnaud          ###   ########.fr       */
+/*   Updated: 2017/06/05 07:39:45 by varnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ typedef struct		s_room
 typedef struct		s_ant
 {
 	int				num;
-	int				room;
+	int				pos;
 	int				done;
 }					t_ant;
 

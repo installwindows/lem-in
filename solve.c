@@ -6,11 +6,23 @@
 /*   By: varnaud <varnaud@student.42.us.org>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/02 14:38:57 by varnaud           #+#    #+#             */
-/*   Updated: 2017/06/05 05:28:49 by varnaud          ###   ########.fr       */
+/*   Updated: 2017/06/05 08:28:41 by varnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
+
+void	set_ants(t_lemin *l)
+{
+	int		i;
+
+	l->ants = malloc(sizeof(t_ants) * l->num_ants);
+	i = 0;
+	while (i < l->num_ants)
+	{
+
+	}
+}
 
 int		scrub_path(t_lemin *l)
 {
