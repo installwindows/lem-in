@@ -6,7 +6,7 @@
 /*   By: varnaud <varnaud@student.42.us.org>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/27 21:17:35 by varnaud           #+#    #+#             */
-/*   Updated: 2017/06/05 07:39:45 by varnaud          ###   ########.fr       */
+/*   Updated: 2017/06/09 06:19:00 by varnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,9 @@ typedef struct		s_ant
 	int				num;
 	int				pos;
 	int				done;
+	int				*path;
+	int				size;
+	int				moved;
 }					t_ant;
 
 typedef struct		s_vertex
