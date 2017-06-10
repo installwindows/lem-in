@@ -6,7 +6,7 @@
 /*   By: varnaud <varnaud@student.42.us.org>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/02 21:05:14 by varnaud           #+#    #+#             */
-/*   Updated: 2017/06/05 07:30:52 by varnaud          ###   ########.fr       */
+/*   Updated: 2017/06/10 08:39:51 by varnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,6 @@ static void			print_path(t_graph *graph, t_dfs *dfs, int src, int dest)
 void				dfs(t_graph *graph, int src, int dest)
 {
 	int		visited[graph->v];
-	int		i;
 	int		path[graph->v];
 	t_dfs	dfs;
 
@@ -174,33 +173,4 @@ void				dfs(t_graph *graph, int src, int dest)
 	free(graph->shortest);
 	graph->shortest = NULL;
 	print_path(graph, &dfs, src, dest);
-	i = 0;
-	ft_printf("Shortest path: ");
-	//if (graph->shortest)
-	//	while (i < graph->size)
-	//	{
-	//		ft_printf(i < graph->size - 1 ? "%d -> " : "%d\n", graph->shortest[i]);
-	//		i++;
-	//	}
 }
-
-/*
-int					main(void)
-{
-	int		v = 6;
-	t_graph	*graph;
-
-	graph = create_graph(v);
-	add_edge(graph, 0, 1);
-	add_edge(graph, 0, 4);
-	add_edge(graph, 1, 2);
-	add_edge(graph, 1, 3);
-	add_edge(graph, 1, 4);
-	add_edge(graph, 2, 3);
-	add_edge(graph, 3, 4);
-	print_graph(graph);
-	ft_printf("Path from src to dest.\n");
-	dfs(graph, 0, 5);
-	delete_graph(graph);
-}
-*/
