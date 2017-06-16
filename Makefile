@@ -6,7 +6,7 @@
 #    By: varnaud <varnaud@student.42.us.org>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/30 22:20:02 by varnaud           #+#    #+#              #
-#    Updated: 2017/06/05 05:25:00 by varnaud          ###   ########.fr        #
+#    Updated: 2017/06/16 04:31:22 by varnaud          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,12 +14,15 @@ NAME = lem-in
 SRC = main.c \
 	  validate.c \
 	  p.c \
+	  pp.c \
 	  graph.c \
+	  dfs.c \
+	  ants.c \
 	  solve.c
 
 OBJ = $(SRC:.c=.o)
 CC = gcc
-CFLAGS = -g -Wall -Wextra -Ilibft
+CFLAGS = -g -Wall -Wextra -Werror -Ilibft
 
 all: $(NAME)
 

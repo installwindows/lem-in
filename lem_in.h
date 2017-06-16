@@ -6,7 +6,7 @@
 /*   By: varnaud <varnaud@student.42.us.org>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/27 21:17:35 by varnaud           #+#    #+#             */
-/*   Updated: 2017/06/09 06:19:00 by varnaud          ###   ########.fr       */
+/*   Updated: 2017/06/16 04:09:39 by varnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@
 # define VTX_END 2
 # define VTX_ANT 4
 # define VTX_VISITED 8
-
-
 
 typedef struct		s_room
 {
@@ -68,13 +66,18 @@ typedef struct		s_lemin
 	int				*path;
 	int				start;
 	int				end;
+	t_graph			*graph;
 }					t_lemin;
 
-
 char				**validate_file(void);
-void				*free_lemin(t_lemin *lemin);
 int					parse(t_lemin *lemin);
-t_room				*find_room(t_room *lst, char *name, int num);
+int					parse_hash(t_lemin *l);
+int					parse_ants(t_lemin *l);
+int					parse_links(t_lemin *l);
 int					scrub_path(t_lemin *l);
+void				set_ants(t_lemin *l, t_graph *g);
+void				delete_graph(t_graph *graph);
+int					pcleanup(char **s);
+void				move_ants(t_lemin *l);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: varnaud <varnaud@student.42.us.org>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/27 21:15:38 by varnaud           #+#    #+#             */
-/*   Updated: 2017/06/06 02:09:38 by varnaud          ###   ########.fr       */
+/*   Updated: 2017/06/16 04:30:38 by varnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,12 @@ static void	cleanup(char **file)
 	free(file);
 }
 
-void		*free_lemin(t_lemin *lemin)
+static void	free_lemin(t_lemin *lemin)
 {
 	int		i;
 	t_room	*c;
 
-	if (lemin == NULL)
-		return (NULL);
+	delete_graph(lemin->graph);
 	i = 0;
 	if (lemin->adj_mtx)
 		while (lemin->adj_mtx[i])
@@ -50,7 +49,6 @@ void		*free_lemin(t_lemin *lemin)
 		c = lemin->rooms;
 	}
 	cleanup(lemin->file);
-	return (NULL);
 }
 
 static void	display_file(char **file)
@@ -59,64 +57,34 @@ static void	display_file(char **file)
 
 	i = 0;
 	while (file[i])
-		ft_printf("%s\n", file[i++]);
-	ft_printf("\n");
-}
-
-void	display_lemin(t_lemin *l)
-{
-	int		i;
-	int		j;
-	t_room	*c;
-	t_room	*a;
-	t_room	*b;
-
-	ft_printf("%d\n", l->num_ants);
-	c = l->rooms;
-	while (c)
 	{
-		if (c->f & VTX_START)
-			ft_printf("##start\n");
-		if (c->f & VTX_END)
-			ft_printf("##end\n");
-		ft_printf("%s(%d) %d %d\n", c->name, c->num, c->x, c->y);
-		c = c->next;
-	}
-	i = 0;
-	j = 0;
-	while (l->adj_mtx[i])
-	{
-		j = 0;
-		while (j < l->num_rooms)
+		if (file[i][0] == '#' && file[i][1] != '#')
 		{
-			ft_printf(j < l->num_rooms - 1 ? "%d " : "%d\n", l->adj_mtx[i][j]);
-			j++;
+			i++;
+			continue ;
 		}
-		i++;
+		ft_printf("%s\n", file[i++]);
 	}
 }
 
-int		main(void)
+int			main(void)
 {
 	t_lemin	lemin;
 	int		err;
 
 	err = 0;
-	ft_memset(&lemin, 0, sizeof(t_lemin));
+	ft_memset(&lemin, (err = 0), sizeof(t_lemin));
 	if (!(lemin.file = validate_file()))
-	{
-		ft_fprintf(2, "File's not fine.\n");
-		err = 1;
-	}
+		ft_fprintf((err = 2), "File's not fine.\n");
 	if (!err && parse(&lemin))
-	{
-		ft_fprintf(2, "Data's not right.\n");
-		err = 1;
-	}
+		ft_fprintf((err = 2), "Data's not right.\n");
+	if (!err && scrub_path(&lemin))
+		ft_fprintf((err = 2), "There is no path!\n");
 	if (!err)
 	{
-		display_lemin(&lemin);
-		scrub_path(&lemin);
+		display_file(lemin.file);
+		ft_printf("\n");
+		move_ants(&lemin);
 	}
 	free_lemin(&lemin);
 	return (err);
